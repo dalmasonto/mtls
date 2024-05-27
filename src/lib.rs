@@ -10,7 +10,7 @@ pub struct AquaJson {
     pub data: String,
 }
 
-pub async fn run_server() {
+pub async fn run_server(port: u16) {
     let routes = warp::post()
         .and(warp::body::json())
         .map(|json: AquaJson| {
@@ -28,13 +28,9 @@ pub async fn run_server() {
 }
 
 pub async fn run_client() -> Result<(), reqwest::Error> {
-    // Use this for successful result
     let server_ca_file_loc = "ca/ca.crt";
-    // Use this for a failed result
-    // let server_ca_file_loc = "ca/second_ca.crt";
-    
     let mut buf = Vec::new();
-    File::open(server_ca_file_loc) 
+    File::open(server_ca_file_loc)
         .await
         .unwrap()
         .read_to_end(&mut buf)
@@ -44,7 +40,7 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
 
     #[cfg(feature = "native-tls")]
     async fn get_identity() -> Identity {
-        let client_p12_file_loc = "ca/second_client.p12";
+        let client_p12_file_loc = "ca/client.p12";
         let mut buf = Vec::new();
         File::open(client_p12_file_loc)
             .await
@@ -57,7 +53,7 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
 
     #[cfg(feature = "rustls-tls")]
     async fn get_identity() -> Identity {
-        let client_pem_file_loc = "ca/second_client.pem";
+        let client_pem_file_loc = "ca/client.pem";
         let mut buf = Vec::new();
         File::open(client_pem_file_loc)
             .await

@@ -1,10 +1,11 @@
 use std::process::{Command, Child};
 
-pub fn start_server() -> Child {
+pub fn start_server(port: u16) -> Child {
     Command::new("cargo")
         .arg("run")
         .arg("--")
         .arg("server")
+        .arg(port.to_string())
         .spawn()
         .expect("Failed to start server")
 }

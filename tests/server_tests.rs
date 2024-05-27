@@ -8,8 +8,9 @@ use mtls::AquaJson; // Import the AquaJson struct
 
 #[tokio::test]
 async fn test_server_starts() {
-    // Start the server
-    let mut server = common::start_server();
+    // Start the server using a different port for testing
+    let port = 3032;
+    let mut server = common::start_server(port);
 
     // Add some delay to ensure server starts
     tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
@@ -19,8 +20,8 @@ async fn test_server_starts() {
     let ca_cert = Certificate::from_pem(&ca_cert).unwrap();
 
     // Read the certificate and key
-    let client_cert = fs::read("ca/second_client.pem").unwrap();
-    let client_key = fs::read("ca/second_client.key").unwrap();
+    let client_cert = fs::read("ca/client.pem").unwrap();
+    let client_key = fs::read("ca/client.key").unwrap();
     
     let identity = match Identity::from_pkcs8_pem(&client_cert, &client_key) {
         Ok(identity) => identity,
@@ -38,7 +39,7 @@ async fn test_server_starts() {
         .unwrap();
 
     // Make a request to the server to verify it's running
-    let res = client.get("https://localhost:3031")
+    let res =  client.get(&format!("https://localhost:{}", port))
         .send()
         .await;
 
@@ -50,8 +51,9 @@ async fn test_server_starts() {
 
 #[tokio::test]
 async fn test_server_receives_json() {
-    // Start the server
-    let mut server = common::start_server();
+    // Start the server using a different port for testing
+    let port = 3032;
+    let mut server = common::start_server(port);
 
     // Add some delay to ensure server starts
     tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
@@ -61,8 +63,8 @@ async fn test_server_receives_json() {
     let ca_cert = Certificate::from_pem(&ca_cert).unwrap();
 
     // Read the certificate and key
-    let client_cert = fs::read("ca/second_client.pem").unwrap();
-    let client_key = fs::read("ca/second_client.key").unwrap();
+    let client_cert = fs::read("ca/client.pem").unwrap();
+    let client_key = fs::read("ca/client.key").unwrap();
     
     let identity = match Identity::from_pkcs8_pem(&client_cert, &client_key) {
         Ok(identity) => identity,
@@ -85,7 +87,7 @@ async fn test_server_receives_json() {
     });
 
     // Send JSON data to the server
-    let res = client.post("https://localhost:3031")
+    let res = client.post(&format!("https://localhost:{}", port))
         .json(&json)
         .send()
         .await
