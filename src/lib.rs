@@ -34,7 +34,7 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
     // let server_ca_file_loc = "ca/second_ca.crt";
     
     let mut buf = Vec::new();
-    File::open(server_ca_file_loc)
+    File::open(server_ca_file_loc) 
         .await
         .unwrap()
         .read_to_end(&mut buf)
