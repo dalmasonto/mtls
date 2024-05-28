@@ -10,7 +10,7 @@ pub struct AquaJson {
     pub data: String,
 }
 
-pub async fn run_server(_port: u16) {
+pub async fn run_server(port: u16) {
     let routes = warp::post().and(warp::body::json()).map(|json: AquaJson| {
         println!("Received JSON: {:?}", json);
         warp::reply::json(&json) // Echo back the received JSON
@@ -21,7 +21,7 @@ pub async fn run_server(_port: u16) {
         .key_path("ca/localhost.key")
         .cert_path("ca/localhost.bundle.crt")
         .client_auth_required_path("ca/ca.crt")
-        .run(([0, 0, 0, 0], 3031))
+        .run(([0, 0, 0, 0], port))
         .await;
 }
 

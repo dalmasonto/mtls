@@ -1,12 +1,17 @@
 #!/bin/bash
 
-mkdir ca
-cd ca
+# Remove ca dir if it exists
+rm -rf ca 
 
+# Directory to store the generated certificates
+CERT_DIR="ca"
+mkdir -p ${CERT_DIR} && cd ${CERT_DIR}
+
+# CA key and certificate
 openssl genrsa -out ca.key 2048
-
 openssl req -new -x509 -key ca.key -out ca.crt
 
+# Server key and certificate 
 openssl genrsa -out localhost.key 2048
 # optional: inspect the key
 openssl rsa -in localhost.key -noout -text

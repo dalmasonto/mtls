@@ -1,14 +1,15 @@
 mod common;
 
+use tokio::process::Command;
 use reqwest::{Client, Certificate, Identity};
 use std::fs;
 use serde_json::json;
- // Import the AquaJson struct
+use mtls::AquaJson; // Import the AquaJson struct
 
 #[tokio::test]
 async fn test_server_starts() {
-    // Start the server using a different port for testing
-    let port = 3032;
+    // Start the server on a different port
+    let port = 3032; // Use a different port for testing
     let mut server = common::start_server(port);
 
     // Add some delay to ensure server starts
@@ -18,17 +19,9 @@ async fn test_server_starts() {
     let ca_cert = fs::read("ca/ca.crt").unwrap();
     let ca_cert = Certificate::from_pem(&ca_cert).unwrap();
 
-    // Read the certificate and key
-    let client_cert = fs::read("ca/client.pem").unwrap();
-    let client_key = fs::read("ca/client.key").unwrap();
-    
-    let identity = match Identity::from_pkcs8_pem(&client_cert, &client_key) {
-        Ok(identity) => identity,
-        Err(e) => {
-            eprintln!("Failed to create identity: {:?}", e);
-            return;
-        }
-    };
+    // Read the PKCS#12 file for the client identity
+    let client_p12 = fs::read("ca/client_0.p12").unwrap();
+    let identity = Identity::from_pkcs12_der(&client_p12, "1234").unwrap();
 
     let client = Client::builder()
         .add_root_certificate(ca_cert)
@@ -38,7 +31,7 @@ async fn test_server_starts() {
         .unwrap();
 
     // Make a request to the server to verify it's running
-    let res =  client.get(&format!("https://localhost:{}", port))
+    let res = client.get(&format!("https://localhost:{}", port))
         .send()
         .await;
 
@@ -50,8 +43,8 @@ async fn test_server_starts() {
 
 #[tokio::test]
 async fn test_server_receives_json() {
-    // Start the server using a different port for testing
-    let port = 3032;
+    // Start the server on a different port
+    let port = 3032; // Use a different port for testing
     let mut server = common::start_server(port);
 
     // Add some delay to ensure server starts
@@ -61,17 +54,9 @@ async fn test_server_receives_json() {
     let ca_cert = fs::read("ca/ca.crt").unwrap();
     let ca_cert = Certificate::from_pem(&ca_cert).unwrap();
 
-    // Read the certificate and key
-    let client_cert = fs::read("ca/client.pem").unwrap();
-    let client_key = fs::read("ca/client.key").unwrap();
-    
-    let identity = match Identity::from_pkcs8_pem(&client_cert, &client_key) {
-        Ok(identity) => identity,
-        Err(e) => {
-            eprintln!("Failed to create identity: {:?}", e);
-            return;
-        }
-    };
+    // Read the PKCS#12 file for the client identity
+    let client_p12 = fs::read("ca/client_0.p12").unwrap();
+    let identity = Identity::from_pkcs12_der(&client_p12, "1234").unwrap();
 
     let client = Client::builder()
         .add_root_certificate(ca_cert)

@@ -1,6 +1,5 @@
 use mtls::{run_server, run_client};
 
-
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = std::env::args().collect();
