@@ -1,8 +1,8 @@
-use warp::Filter;
+use reqwest::Identity;
 use serde::{Deserialize, Serialize};
 use tokio::fs::File;
 use tokio::io::AsyncReadExt;
-use reqwest::Identity;
+use warp::Filter;
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct AquaJson {
@@ -10,13 +10,11 @@ pub struct AquaJson {
     pub data: String,
 }
 
-pub async fn run_server(port: u16) {
-    let routes = warp::post()
-        .and(warp::body::json())
-        .map(|json: AquaJson| {
-            println!("Received JSON: {:?}", json);
-            warp::reply::json(&json)  // Echo back the received JSON
-        });
+pub async fn run_server(_port: u16) {
+    let routes = warp::post().and(warp::body::json()).map(|json: AquaJson| {
+        println!("Received JSON: {:?}", json);
+        warp::reply::json(&json) // Echo back the received JSON
+    });
 
     warp::serve(routes)
         .tls()
@@ -27,8 +25,11 @@ pub async fn run_server(port: u16) {
         .await;
 }
 
+
 pub async fn run_client() -> Result<(), reqwest::Error> {
+    // Use this for successful result
     let server_ca_file_loc = "ca/ca.crt";
+
     let mut buf = Vec::new();
     File::open(server_ca_file_loc)
         .await
@@ -38,9 +39,8 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
         .unwrap();
     let cert = reqwest::Certificate::from_pem(&buf)?;
 
-    #[cfg(feature = "native-tls")]
     async fn get_identity() -> Identity {
-        let client_p12_file_loc = "ca/client.p12";
+        let client_p12_file_loc = "ca/client_0.p12";
         let mut buf = Vec::new();
         File::open(client_p12_file_loc)
             .await
@@ -49,19 +49,6 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
             .await
             .unwrap();
         reqwest::Identity::from_pkcs12_der(&buf, "1234").unwrap()
-    }
-
-    #[cfg(feature = "rustls-tls")]
-    async fn get_identity() -> Identity {
-        let client_pem_file_loc = "ca/client.pem";
-        let mut buf = Vec::new();
-        File::open(client_pem_file_loc)
-            .await
-            .unwrap()
-            .read_to_end(&mut buf)
-            .await
-            .unwrap();
-        reqwest::Identity::from_pem(&buf).unwrap()
     }
 
     let identity = get_identity().await;
@@ -76,7 +63,8 @@ pub async fn run_client() -> Result<(), reqwest::Error> {
         data: String::from("Hello, Aqua-Chains!"),
     };
 
-    let res = client.post("https://localhost:3031")
+    let res = client
+        .post("https://localhost:3031")
         .json(&json)
         .send()
         .await?;

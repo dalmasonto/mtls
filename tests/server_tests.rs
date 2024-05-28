@@ -1,10 +1,9 @@
 mod common;
 
-use tokio::process::Command;
 use reqwest::{Client, Certificate, Identity};
 use std::fs;
 use serde_json::json;
-use mtls::AquaJson; // Import the AquaJson struct
+ // Import the AquaJson struct
 
 #[tokio::test]
 async fn test_server_starts() {

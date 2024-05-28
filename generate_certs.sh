@@ -1,36 +1,43 @@
 #!/bin/bash
 
-# Directory to store the generated certificates
-CERT_DIR="ca"
-mkdir -p ${CERT_DIR}
+mkdir ca
+cd ca
 
-# CA key and certificate
-openssl ecparam -name secp256r1 -genkey -noout -out ${CERT_DIR}/ca.key
-openssl req -new -x509 -key ${CERT_DIR}/ca.key -out ${CERT_DIR}/ca.crt -days 365 -subj "/C=US/ST=State/L=City/O=Org/OU=OrgUnit/CN=Test CA"
+openssl genrsa -out ca.key 2048
 
-# Server key and certificate signing request (CSR)
-openssl ecparam -name secp256r1 -genkey -noout -out ${CERT_DIR}/localhost.key
-openssl req -new -key ${CERT_DIR}/localhost.key -out ${CERT_DIR}/localhost.csr -subj "/C=US/ST=State/L=City/O=Org/OU=OrgUnit/CN=localhost"
+openssl req -new -x509 -key ca.key -out ca.crt
 
-# Sign the server CSR with the CA key
-openssl x509 -req -in ${CERT_DIR}/localhost.csr -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -CAcreateserial -out ${CERT_DIR}/localhost.crt -days 365
-cat ${CERT_DIR}/localhost.crt ${CERT_DIR}/ca.crt > ${CERT_DIR}/localhost.bundle.crt
+openssl genrsa -out localhost.key 2048
+# optional: inspect the key
+openssl rsa -in localhost.key -noout -text
+# optional: extract pubkey
+openssl rsa -in localhost.key -pubout -out localhost.pubkey
 
-# Client key and certificate signing request (CSR)
-openssl ecparam -name secp256r1 -genkey -noout -out ${CERT_DIR}/client.key
-openssl req -new -key ${CERT_DIR}/client.key -out ${CERT_DIR}/client.csr -subj "/C=US/ST=State/L=City/O=Org/OU=OrgUnit/CN=client"
+# enter detailed information when necessary (please make sure you enter COMMON NAME)
+openssl req -new -key localhost.key -addext "subjectAltName = DNS:localhost" -out localhost.csr
+# optional: inspect the csr (note: while inspecting, make sure your Signature Algorithm is not MD5 which is not accepted by many sites, upgrade your openssl if necessary)
+openssl req -in localhost.csr -noout -text
 
-# Sign the client CSR with the CA key
-openssl x509 -req -in ${CERT_DIR}/client.csr -CA ${CERT_DIR}/ca.crt -CAkey ${CERT_DIR}/ca.key -CAcreateserial -out ${CERT_DIR}/client.crt -days 365
+openssl x509 -req -in localhost.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -out localhost.crt
+# optional: to exam the output crt
+openssl x509 -in localhost.crt -noout -text
+ 
+cat localhost.crt ca.crt > localhost.bundle.crt
 
-# Convert client certificate and key to PEM format for reqwest
-cat ${CERT_DIR}/client.crt ${CERT_DIR}/client.key > ${CERT_DIR}/client.pem
+# Client
+echo "Generating client certificate"
 
-# Optional: Create a PKCS#12 bundle for the client
-openssl pkcs12 -export -out ${CERT_DIR}/client.p12 -inkey ${CERT_DIR}/client.key -in ${CERT_DIR}/client.crt -certfile ${CERT_DIR}/ca.crt -password pass:1234
+openssl genrsa -out client_0.key 2048
 
-# Cleanup
-rm ${CERT_DIR}/*.csr
-rm ${CERT_DIR}/*.srl
+# enter detailed information when necessary (please make sure you enter COMMON NAME)
+openssl req -new -key client_0.key -addext "subjectAltName = DNS:localhost" -out client_0.csr
 
-echo "Certificates generated in the ${CERT_DIR} directory."
+openssl x509 -req -in client_0.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile <(printf "subjectAltName=DNS:localhost") -out client_0.crt
+
+# generate pem file
+cat client_0.crt client_0.key > client_0.pem
+# optional: test command (after starting the server) using .pem file
+# generate cert file to use with browser (setting password to be 123456 for example)
+openssl pkcs12 -export -in client_0.pem -out client_0.p12 -name "client_0"
+# optional: test command (after starting the server) using .p12 file
+
