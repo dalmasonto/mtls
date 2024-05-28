@@ -1,0 +1,193 @@
+{
+    "pages": [
+        {
+            "genesis_hash": "016438bafc5650082e7d0dcea567bf32777420825684ae21f4a0e248935e712db6bfa3f1aba241726c8174dde53754308c5846091cf26c0187dc1a4a9621256f",
+            "domain_id": "05c16f2fd2",
+            "latest_verification_hash": "08a3a2a772974107f1abd300295785013e59ccd85ee3c060940d8e7c691f1b6a45c87fdead2a7813658f6d42152d0c28b220a95d147b25e9755c2c1be6c6b81d",
+            "title": "Dalmas",
+            "namespace": 0,
+            "chain_height": 2,
+            "revisions": {
+                "016438bafc5650082e7d0dcea567bf32777420825684ae21f4a0e248935e712db6bfa3f1aba241726c8174dde53754308c5846091cf26c0187dc1a4a9621256f": {
+                    "verification_context": {
+                        "has_previous_signature": false,
+                        "has_previous_witness": false
+                    },
+                    "content": {
+                        "rev_id": 23,
+                        "content": {
+                            "main": "Dalmas page",
+                            "transclusion-hashes": ""
+                        },
+                        "content_hash": "3a665415e6ee718a3e05cc779c4eccb409a51f4202d0dc625509b2c5388ad918352a641f0ea17dc5798e7dd363b67ddb79c8b91fd79b9330b14c695c3f5e06f0"
+                    },
+                    "metadata": {
+                        "domain_id": "05c16f2fd2",
+                        "time_stamp": "20240525084423",
+                        "previous_verification_hash": "",
+                        "metadata_hash": "c7434f472b0c2665601d18f9b804b7874be809ba8faed00b5300ed6434c877977b8cf75167457734ab694aed8b9dc8774cb319ce88b6950621d48b7c728393d6",
+                        "verification_hash": "016438bafc5650082e7d0dcea567bf32777420825684ae21f4a0e248935e712db6bfa3f1aba241726c8174dde53754308c5846091cf26c0187dc1a4a9621256f"
+                    },
+                    "signature": {
+                        "signature": "0x2499abedf960563537748b4fc8fbe87d602f953c42cd8c31799dcdedfa95aa30530c8b4400f201af2b4a834a531c4a3196781d24e84685e2371891a795c6133b1b",
+                        "public_key": "0x04c56c1231c8a69a375c3f81e549413eb0f415cfd56d40c9a5622456a3f77be0625e1fe8a50cb6274e5d0959625bf33f3c8d1606b5782064bad2e4b46c5e2a7428",
+                        "wallet_address": "0x254B0D7b63342Fcb8955DB82e95C21d72EFdB6f7",
+                        "signature_hash": "f4bf6375f112af36a7824bd6859b79eebdd2cd9948ffc460c5abeafa1007aa1ad18874edcd8be8315dca5dd897c508e2a40974fdbe47fbcf330efdeeaca77df1"
+                    },
+                    "witness": null
+                },
+                "08a3a2a772974107f1abd300295785013e59ccd85ee3c060940d8e7c691f1b6a45c87fdead2a7813658f6d42152d0c28b220a95d147b25e9755c2c1be6c6b81d": {
+                    "verification_context": {
+                        "has_previous_signature": true,
+                        "has_previous_witness": false
+                    },
+                    "content": {
+                        "rev_id": 24,
+                        "content": {
+                            "main": "Dalmas page",
+                            "signature-slot": "[\n    {\n        \"user\": \"0x254B0D7b63342Fcb8955DB82e95C21d72EFdB6f7\",\n        \"timestamp\": \"20240525084434\"\n    }\n]",
+                            "transclusion-hashes": ""
+                        },
+                        "content_hash": "d8b407c296691378d95a09d4f62534f2fed43f2276f6017002706f2d6b1858fc39918f9eeae3cf5bc295489e922e536f504f01c13b8765fc1aca7df0f595fd66"
+                    },
+                    "metadata": {
+                        "domain_id": "05c16f2fd2",
+                        "time_stamp": "20240525084434",
+                        "previous_verification_hash": "016438bafc5650082e7d0dcea567bf32777420825684ae21f4a0e248935e712db6bfa3f1aba241726c8174dde53754308c5846091cf26c0187dc1a4a9621256f",
+                        "metadata_hash": "bf65ac97e2a6f5536d9d0b717063a379efc18667438e8f0986a24acc813c172ae0c03984b48b15311663458c76c8beb0c0549b57411d13db6a5b7a6f5fc27b44",
+                        "verification_hash": "08a3a2a772974107f1abd300295785013e59ccd85ee3c060940d8e7c691f1b6a45c87fdead2a7813658f6d42152d0c28b220a95d147b25e9755c2c1be6c6b81d"
+                    },
+                    "signature": {
+                        "signature": "",
+                        "public_key": "",
+                        "wallet_address": "",
+                        "signature_hash": ""
+                    },
+                    "witness": null
+                }
+            }
+        }
+    ],
+    "siteInfo": {
+        "sitename": "Personal Knowledge Container",
+        "dbname": "my_wiki",
+        "base": "http:\/\/localhost:9352\/index.php\/Main_Page",
+        "generator": "MediaWiki 1.39.4",
+        "case": "first-letter",
+        "namespaces": {
+            "-2": {
+                "case": true,
+                "title": "Media"
+            },
+            "-1": {
+                "case": true,
+                "title": "Special"
+            },
+            "0": {
+                "case": true,
+                "title": ""
+            },
+            "1": {
+                "case": true,
+                "title": "Talk"
+            },
+            "2": {
+                "case": true,
+                "title": "User"
+            },
+            "3": {
+                "case": true,
+                "title": "User talk"
+            },
+            "4": {
+                "case": true,
+                "title": "Personal Knowledge Container"
+            },
+            "5": {
+                "case": true,
+                "title": "Personal Knowledge Container talk"
+            },
+            "6": {
+                "case": true,
+                "title": "File"
+            },
+            "7": {
+                "case": true,
+                "title": "File talk"
+            },
+            "8": {
+                "case": true,
+                "title": "MediaWiki"
+            },
+            "9": {
+                "case": true,
+                "title": "MediaWiki talk"
+            },
+            "10": {
+                "case": true,
+                "title": "Template"
+            },
+            "11": {
+                "case": true,
+                "title": "Template talk"
+            },
+            "12": {
+                "case": true,
+                "title": "Help"
+            },
+            "13": {
+                "case": true,
+                "title": "Help talk"
+            },
+            "14": {
+                "case": true,
+                "title": "Category"
+            },
+            "15": {
+                "case": true,
+                "title": "Category talk"
+            },
+            "828": {
+                "case": true,
+                "title": "Module"
+            },
+            "829": {
+                "case": true,
+                "title": "Module talk"
+            },
+            "2300": {
+                "case": false,
+                "title": "Gadget"
+            },
+            "2301": {
+                "case": false,
+                "title": "Gadget talk"
+            },
+            "2302": {
+                "case": false,
+                "title": "Gadget definition"
+            },
+            "2303": {
+                "case": false,
+                "title": "Gadget definition talk"
+            },
+            "6900": {
+                "case": true,
+                "title": "Inbox"
+            },
+            "6901": {
+                "case": true,
+                "title": "Inbox talk"
+            },
+            "6942": {
+                "case": true,
+                "title": "Data Accounting"
+            },
+            "6943": {
+                "case": true,
+                "title": "Data Accounting talk"
+            }
+        },
+        "version": "0.3.0"
+    }
+}

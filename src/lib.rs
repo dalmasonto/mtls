@@ -6,7 +6,8 @@ use warp::Filter;
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct AquaJson {
-    // Define the structure of the JSON data here
+    // Aqua JSON data object; Currenlty we have only added a single field, but should contain all fields in the exported JSON file.
+    // ie aqua.json file in the root of project
     pub data: String,
 }
 
@@ -27,7 +28,6 @@ pub async fn run_server(port: u16) {
 
 
 pub async fn run_client() -> Result<(), reqwest::Error> {
-    // Use this for successful result
     let server_ca_file_loc = "ca/ca.crt";
 
     let mut buf = Vec::new();

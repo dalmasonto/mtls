@@ -30,7 +30,7 @@ openssl x509 -in localhost.crt -noout -text
 cat localhost.crt ca.crt > localhost.bundle.crt
 
 # Client
-echo "Generating client certificate"
+echo "\n Generating client certificate \n"
 
 openssl genrsa -out client_0.key 2048
 
